@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}home.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Bienvenido al Sistema de Administración
+{% endblock %}
+
+{% block breadcrumbs_container %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}index.php"><i class="fa fa-home" aria-hidden="true"></i>  Index</a>
+    </li>
+    <li class="active">
+        Home
+    </li>
+{% endblock %}
+
+{% block menu_session_username %} Administrador {% endblock %}
+
+{% block container_html %}
+    <div class="col-md-8 col-md-offset-2 col-xs-12 col-lg-10 col-lg-offset-1">
+        <p>
+            <span class="capital">S</span>e trata de una aplicación web que permite la administración de los productos y servicios relacionados con la gestión del Buffet de la Facultad de Informática. 
+            La misma esta desarrollada integramente por alumnos de misma facultad, más precisamente, por integrantes de la cursada Proyecto de Software 2016 (<span class="text-cursive text-bold">Grupo 15</span>).
+            El sistema contempla Altas, Bajas y Modificaciones de <span class="text-cursive">Productos</span>, <span class="text-cursive"> Ventas</span>,<span class="text-cursive"> Gastos</span>, <span class="text-cursive"> Menú</span>, <span class="text-cursive"> Usuarios del Sistema</span> y <span class="text-cursive"> Pedidos</span>.
+            Además se puede acceder al panel de configuración global de la Aplicación, en donde se pueden cambiar aspectos de visualización y performance de la Aplicación, personalizando la misma a gusto del Administrador.<br>
+            Por último la Aplicación dispone de una sección <span class="text-cursive">Balance </span>, desde la cual se pueden generar listados dinámicos que proporcionan una visión en tiempo real del funcionamiento de la Aplicación.
+        </p>
+    </div>
+{% endblock %}

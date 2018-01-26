@@ -1,0 +1,101 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}pedido.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Pedido Online - Nuevo
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Pedido Online - Nuevo
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form  class="form-horizontal" action="{{ constant('ROOT_URL') }}pedido.php?action=registrar" method="POST">
+            <div class="panel menu panel-success">
+                <div class="panel-body text-center">
+                    {% if menu.menu is defined %}                   
+                        <h2 class="encabezado_menu">Men&uacute; del D&iacute;a</h2>
+                        <div class="col-md-12  table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <td class="col-md-5 text-left"></td>
+                                        <td class="col-md-2 text-center"></td>
+                                        <td class="col-md-1 text-center">Sel.</td>
+                                        <td class="col-md-2 text-center">Precio Unitario</td>
+                                        <td class="col-md-2 text-center">Stock</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for detalle in menu.menu.getMenuDetalles() %}
+                                        <tr>
+                                            <td class="text-right"> 
+                                                <i class="fa fa-arrow-circle-o-right text-danger" aria-hidden="true"></i> {{ detalle.getProducto().getNombre() }} (X {{ detalle.getCantidad() }})
+                                            </td>
+                                            <td class="text-center">...............................</td>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="producto[{{ loop.index }}][checked]" checked="checked">
+                                                <input type="hidden" name="producto[{{ loop.index }}][producto_id]" value="{{detalle.getProducto().getId()}}">
+                                                <input class="precioUnitario" type="hidden" name="producto[{{ loop.index }}][precioUnitario]" value="{{detalle.getProducto().getPrecioVentaUnitario()}}">
+                                                <input class="cantidad" type="hidden" name="producto[{{ loop.index }}][cantidad]" value="{{detalle.getCantidad()}}">
+                                            </td>
+                                            <td class="text-center">
+                                                $<span> {{detalle.getProducto().getPrecioVentaUnitario()}}</span>
+                                            </td>
+                                            <td>
+                                                ({{detalle.getProducto().getStock()}}<span> Und.</span>)
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-right">
+                                            <span>
+                                                <h3 class="texto-cursiva"><i class="fa fa-hand-o-right" aria-hidden="true"></i> PRECIO = $<span class="precioMenu">{{ menu.menu.getPrecioMenu() }}</span> <span class="centavos"><sup>00</sup></span> 
+                                                </h3>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <h3 class="encabezado_menu">Comentario</h3>
+                                <textarea name="comentario" placeholder="Ingrese un comentario sobre el pedido (opcional)..." class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 text-right">
+                            <button id="pedido_submit" class="btn btn-success btn-lg">
+                                <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                                Pedilo Ya
+                                <i class="fa fa-exclamation" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    {% else %}
+                        <h4 class="text-cursive">{{ menu.msj }}</h4>
+                    {% endif %}
+                </div>
+            </div>
+            {% include  'csrf_tag.html.twig'%}
+        </form>
+    </div>
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}pedido.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Pedido.init();
+        });
+    </script>
+{% endblock %}

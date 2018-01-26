@@ -1,0 +1,19 @@
+{% extends "layout.html.twig" %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block container_html %}
+    <div class="texto-centrado">
+        <img src="{{ constant('PATH_URL_IMG') }}denegado.png"/>
+    </div>
+    <div class="texto-centrado">
+        <h1 class="acceso_denegado">ACCESO DENEGADO!!</h1>
+    </div>
+{% endblock %}
+{% block container_titulo %}
+
+{% endblock %}
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}errorHandler.css">
+{% endblock %}

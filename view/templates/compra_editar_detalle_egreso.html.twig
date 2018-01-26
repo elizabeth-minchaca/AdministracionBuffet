@@ -1,0 +1,148 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}compra.css">
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}compra.php?action=listado_compras" class="active"> Compras - Listado </a>
+    </li>
+    <li class="active">
+        Compras - Editar
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Compras - Editar
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+
+        <form class="form-horizontal" action="#">
+            <fieldset>
+                <legend>
+                    <div class="col-md-6">
+                        Informaci&oacute;n de Compra
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra&id='~compra.getId() }}"  title="Editar Compra" class="btn btn-primary btn-xs">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Editar
+                        </a>
+                    </div>
+                </legend>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Proveedor: </label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{ compra.getProveedor().getNombre() }}</p>                    	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Proveedor (CUIL): </label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{ compra.getProveedor().getCuit() }}</p>                    	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Fecha: </label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{ compra.getFechaFormateada() }}</p>                    	                    	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Estado: </label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{ compra.getEstadoCompra() }}</p>                    	                    	
+                        </div>
+                    </div>  
+                </div>
+                <div class="col-md-6 col-factura">
+                    <div class="col-md-12 text-center">
+                        <img class="img-thumbnail" src="data:image/png;base64,{{compra.getFactura()}}" alt="Factura Escaneada" />
+                        <h3>Factura Digital</h3>
+                        <a  target="_blank" href="{{ constant('ROOT_URL') }}compra.php?action=descargar_factura&id={{compra.getId()}}" class="btn btn-danger" role="button">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            Descargar
+                        </a>
+                    </div>
+                </div>
+            </fieldset>		
+        </form>
+        <br>
+        <fieldset>
+            <legend>
+                <div class="col-md-6">
+                    Detalle de la Compra
+                </div>
+                <div class="col-md-6 text-right">
+                    {% if not compra.getFinalizada() %}
+                        <a href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=nuevo_egreso_detalle&id='~compra.id }}" class="btn btn-primary btn-xs">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Agregar detalle
+                        </a>
+                    {% endif %}    
+                </div>
+            </legend>
+            <br>
+            <div class="table-responsive">                         	
+                <table class="table table-hover table-condensed table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="texto-centrado col-md-1" id="posicion">#</th>
+                            <th class="texto-centrado col-md-4" id="producto">Producto</th>
+                            <th class="texto-centrado col-md-1" id="cantidad">Cantidad</th>
+                            <th class="texto-centrado col-md-1" id="precio">Precio Unitario</th>
+                            <th class="texto-centrado col-md-2" id="tipoEgreso">Tipo de Egreso</th>				
+                            <th class="texto-centrado col-md-2" id="fecha">Fecha</th>
+                            <th class="texto-centrado col-md-1" id="accion">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if compra.getEgresosDetalles() | length > 0 and not compra.getFinalizada() %}
+                            {% for egreso in compra.getEgresosDetalles() %}
+                                <tr>
+                                    <th class="texto-centrado" headers="posicion">{{ loop.index }}</th>
+                                    <td class="texto-centrado" headers="producto">{{ egreso.getProducto().getNombre() }}</td>
+                                    <td class="texto-centrado" headers="cantidad">{{ egreso.getCantidad() }}</td>
+                                    <td class="texto-centrado" headers="precio">{{ egreso.getPrecioUnitario() }}</td>
+                                    <td class="texto-centrado" headers="tipoEgreso">{{ egreso.getEgresoTipo().getNombre() }}</td>				
+                                    <td class="texto-centrado" headers="fecha">{{ egreso.getFechaFormateada() }}</td>				
+                                    <td class="texto-centrado td-accion" headers="accion">
+                                            <a href="#" class="tip btn btn-danger" title="Eliminar" onclick="$.Compra.eliminarDetalle({{ egreso.getId() }});">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                    </td>                                        
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr  class="tr-vacio">
+                                <td colspan="7" class="text-center">(vac&iacute;o)</td>
+                            </tr>                  	                    	
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div> 
+            <div class="form-group">
+                <div class="col-md-6 texto-izquierda">
+                    <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}compra.php?action=listado_compras"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</a>
+                </div>
+                {% if not compra.getFinalizada() and compra.getEgresosDetalles() | length > 0 %}
+                    <div class="col-md-6 text-right">
+                        <a href="#" class="tip btn btn-success btn-lg" title="Finalizar la Compra" onclick="$.Compra.finalizarCompra({{ compra.getId() }});">
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i> Finalizar Compra
+                        </a>                     
+                    </div>
+                {% endif %} 
+            </div>
+        </fieldset>
+    </div>
+{% endblock %}
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}compra.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Compra.init('{{ constant('ROOT_URL') }}');
+        });
+    </script>
+{% endblock %} 

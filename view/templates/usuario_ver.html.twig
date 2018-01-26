@@ -1,0 +1,93 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}usuario.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Usuarios - Ver
+{% endblock %}
+
+{% block botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}usuario.php"  title="Usuario">Usuarios</a> 
+    </li>
+    <li class="active">
+        Usuarios - Ver
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="#" method="POST">
+            <fieldset>
+                <legend>Datos del usuario</legend>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Nombre</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getNombre() | capitalize }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Apellido</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getApellido() | capitalize }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">DNI</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getDocumento() | number_format(0, ',' , '.' ) }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Email</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getEmail()}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tel&eacute;fono</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getTelefono()}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Usuario</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getUsuario() | upper}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tipo de Usuario</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getRol().getNombre() | capitalize }}</p>
+                        </div>
+                    </div>
+                    {% if(usuario.getRol().getNombre() == 'USUARIO ONLINE') %} 
+                        <div id="contenido_ubicacion"  class="form-group">
+                            <label class="col-md-4 control-label">Ubicaci&oacute;n</label>
+                            <div class="col-md-8">
+                                <p class="form-control-static texto-cursiva">{{usuario.getUbicacion().getNombre() | capitalize }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Habilitado</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static texto-cursiva">{{usuario.getHabilitado()?'Si':'No'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}usuario.php?action=listado">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                    </a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

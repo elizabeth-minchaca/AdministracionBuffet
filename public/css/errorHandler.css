@@ -1,0 +1,24 @@
+.contenido_container{
+    background-color: white;
+}
+.contenido img {
+    margin-top: 50px;
+    width: 300px;
+}
+.contenido_html h1{
+    font-size: 35px;
+    font-weight: bold;
+    padding: 20px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+.contenido_html h1.no_encontrado{
+     background-color: yellow;
+     color: red;
+}
+.contenido_html h1.acceso_denegado{
+     background-color: red;
+     color: white;
+}

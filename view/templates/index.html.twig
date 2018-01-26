@@ -1,0 +1,69 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}index.css">
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+{% endblock %}
+
+{% block breadcrumbs_container %}
+    {% if user is defined and user %}
+        <li>
+            <a href="{{constant('ROOT_URL') }}index.php?action=home" title="Home">
+                <i class="fa fa-cogs" aria-hidden="true"></i> Home
+            </a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block container_primary_titulo %}
+{% endblock%}
+
+{% block container_html %}
+    {% if (config.getSitioHabilitado()) %}
+        <div class="index_container">
+            <div class="col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <p class="capital text-justify">{{config.getDescripcion()}}</p>
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-body">
+                        <p class="capital text-justify">Ahora podes realizar tus pedidos online sin moverte de tu lugar de trabajo.</p>
+                        <div class="text-center">
+                            <a class="btn btn-success" href="{{constant('ROOT_URL') }}index.php?action=registrar"><i class="fa fa-bullhorn" aria-hidden="true"></i> Registrate Ya<i class="fa fa-exclamation" aria-hidden="true"></i> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel menu panel-success">
+                    <div class="panel-body text-center">
+                        {% if arreglo.menu %}                   
+                            <h2 class="text-cursive te">Men&uacute;</h2>
+                            <!--                             <h4 class="text-cursive text-warning">-Entrada-</h4>
+                                                        <p class="">Ensalada Mixta</p>
+                                                        <h4 class="text-cursive text-success">-Plato Principal-</h4>
+                                                        <p class="texto-centrado">Carne al horno con papas</p>
+                                                        <h4 class="text-cursive text-primary">-Postre-</h4>
+                                                        <p class="texto-centrado">Copa helada</p>
+                                                        <h3 class=" precio texto-derecha texto-cursiva">$AR 75 <span class="centavos"><sup>00</sup></span></h3>
+                            -->                   
+                            {% for detalle in arreglo.menu.getMenuDetalles() %}
+                                <p class="precio texto-izquierda texto-cursiva">
+                                    {{ detalle.getCantidad() }} - {{ detalle.getProducto().getNombre() }}
+                                </p>
+                            {% endfor %}
+                            <h3 class=" precio texto-derecha texto-cursiva">${{ arreglo.menu.getPrecioMenu() }}</h3>
+                        {% else %}
+                            <h4 class="text-cursive">{{ arreglo.msj }}</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="deshabilitado texto-negrita texto-centrado">{{ config.getSitioHabilitadoMsj() }}</div>
+    {% endif %}
+
+{% endblock %} 

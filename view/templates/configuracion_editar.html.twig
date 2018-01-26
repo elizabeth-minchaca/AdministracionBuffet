@@ -1,0 +1,80 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}configuracion.css">
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script type="text/javascript" src="{{ constant('PATH_URL_JS') }}configuracion.js"></script>
+{% endblock %}
+
+{% block botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}configuracion.php">Configuraci&oacute;n del Sitio</a>
+    </li>
+    <li class="active">
+        Editar
+    </li>
+{% endblock %}
+
+{% block container_titulo %}
+    Configuraci&oacute;n del Sitio - Editar
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal"  action="{{ constant('ROOT_URL') }}configuracion.php?action=editar" method="POST" >
+            <fieldset>
+                <legend>Información del Sitio - Editar</legend>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="titulo">T&iacute;tulo</label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" id="titulo" name="titulo" placeholder="Ingrese el t&iacute;tulo..."  required="required">{{ config.getTitulo }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="descripcion">Descripci&oacute;n</label>
+                    <div class="col-md-10">
+                        <textarea class="form-control"  id="descripcion" name="descripcion" placeholder="Ingrese una descripci&oacute;n..." required="required">{{ config.getDescripcion() }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="email">E-mail</label>
+                    <div class="col-md-10">
+                        <input class="form-control"  id="email" type="email" name="email" placeholder="Ingrese el email..."  value="{{ config.getEmail() }}" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"  for="paginadoNumero">Paginador</label>
+                    <div class="col-md-10">
+                        <input class="form-control"  id="paginadoNumero" type="number" name="paginadoNumero" placeholder="Ingrese el n&uacute;mero..." onkeypress="return SoloNumeros(event);" min="1" max="20" value="{{ config.getPaginadoNumero() }}" required="required" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" >Habilitado</label>
+                    <div class="col-md-10">
+                        <label for="config_habilitado_si" >Si</label>
+                        <input id="config_habilitado_si" value="true"  name="sitioHabilitado" type="radio" required="required" {% if sitioHabilitado is defined %} {{ (sitioHabilitado)?'checked':'' }} {%else%}{{ (config.sitioHabilitado)?'checked':'' }}{% endif %} >
+                        <label for="config_habilitado_no"> No</label>
+                        <input id="config_habilitado_no" value="false"  name="sitioHabilitado" type="radio" required="required" {% if sitioHabilitado is defined %} {{ (sitioHabilitado)?'':'checked' }} {%else%}{{ (config.sitioHabilitado)?'':'checked' }}{% endif %}>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="sitioHabilitadoMsj">Mensaje</label>
+                    <div class="col-md-10">
+                        <textarea  class="form-control"  id="sitioHabilitadoMsj" name="sitioHabilitadoMsj" placeholder="Ingrese un mensaje de deshabilitacion..." required="required" >{{ config.getSitioHabilitadoMsj() }}</textarea>
+                    </div>
+                </div>
+                <div class="col-md-6 text-left">
+                    <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}configuracion.php?action=mostrar">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                    </a>
+                </div>
+                <div class="col-md-6 text-right">
+                    <input class="btn btn-success" type="submit" value="Guardar">
+                </div>
+            </fieldset>
+            {% include  'csrf_tag.html.twig'%}            
+        </form>
+    </div>  
+{% endblock %} 

@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}login.css">
+{% endblock %}
+{% block container_titulo %}
+    Login
+{% endblock %}
+
+{% block breadcrumbs_container %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}index.php"><i class="fa fa-home" aria-hidden="true"></i> Index</a>
+    </li>
+    <li class="active">
+        Ingresar
+    </li>
+{% endblock %}
+{% block menu_session %}
+
+{% endblock %}
+{% block container_html %}
+    <div class="contenedor-login col-md-6 col-md-offset-3">
+        <form class="login-form" action="{{ constant('ROOT_URL') }}index.php?action=login_process" method="post">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input class="form-control input-lg" type="text" id="usuario" title="usuario" name="usuario" placeholder="Usuario"  required />
+            </div>
+            <div class="form-group">
+                <label for="passwd">Contraseña</label>
+                <input class="form-control input-lg" type="password" id="passwd" title="contraseña" name="passwd"  required placeholder="Contraseña" />
+            </div>
+            <div class="row">
+                <div class="checkbox col-md-6">
+                    <label>
+                        <input type="checkbox" id="recordarme" value="si" type="checkbox" name="recordarme"> Recordarme
+                    </label>
+                </div>
+                <div class="col-md-6 col-xs-12 text-right">
+                    <button type="submit" class="btn btn-success btn-lg">Ingresar</button>
+                </div> 
+            </div>
+        </form>  
+    </div>
+{% endblock %} 

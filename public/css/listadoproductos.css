@@ -1,0 +1,159 @@
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+}
+/* Esto es para el estilo zebra. Una fila gris, la siguiente blanca, luego gris, etc. */
+tr:nth-of-type(odd) { 
+    background: #eee; 
+}
+th { 
+    background: #333; 
+    color: white; 
+    font-weight: bold; 
+}
+td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
+}
+.listado-header {
+    color:#20460F;;
+    text-align:center;
+    font-size: 230%;
+    font-weight: 700;
+}
+.listado-header h1 {
+    text-shadow: 0px 5px 15px #000;
+}
+
+
+/*RESPONSIVE*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    /* Hacer que la tabla ya no se vea como una tabla */
+    table, thead, tbody, th, td, tr { 
+        display: block; 
+    }
+
+    /* Se ocultan los títulos de las columnas ( nombre, apelllido y edad en este caso ) */
+    thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr { border: 1px solid #ccc; }
+
+    td { 
+        /* hacer que los campos se comporten como filas */
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding-left: 50%; 
+    }
+
+    td:before { 
+        /* Se le agregan los títulos */
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+    }
+
+    /* Se ponen los titulares: nombre, marca, stock actual y fecha de vencimiento */
+    td:nth-of-type(1):before { content: "#"; }
+    td:nth-of-type(2):before { content: "Nombre"; }
+    td:nth-of-type(3):before { content: "Marca"; }
+    td:nth-of-type(4):before { content: "Stock actual"; }
+    td:nth-of-type(5):before { content: "Fecha de vencimiento"; }
+    td:nth-of-type(6):before { content: "Accion"; }
+
+    .listado-header {
+        color:#20460F;;
+        text-align:center;
+        font-size: 170%;
+        font-weight: 700;
+    }
+
+}
+
+.tip {
+    display: inline-block;
+    width: 22px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 20px;
+    color: #f5e5e5;
+    text-align: center;
+}
+
+/*
+
+
+.pagination ul li a:hover {
+    background:#000000;
+}
+
+
+.pagination ul {
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+.pagination li {
+    display: inline;
+}
+.pagination a {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #DDDDDD;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    float: left;
+    line-height: 34px;
+    padding: 0 14px;
+    text-decoration: none;
+}
+
+.pagination li:first-child a {
+    border-left-width: 1px;
+    border-radius: 3px 0 0 3px;
+}
+.pagination li:last-child a {
+    border-radius: 0 3px 3px 0;
+}
+
+.pagination-right {
+    text-align: right;
+}
+.pagination ul li a {
+
+    color:#fff;
+    background:#094013;
+    text-decoration: none;
+}
+
+.pagination {
+    height: 36px;
+    margin: 18px 0;
+    text-align: center;
+}
+
+.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination li a:hover:not(.active) {background-color: #888a85;}
+
+*/

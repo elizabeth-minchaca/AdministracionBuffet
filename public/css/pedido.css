@@ -1,0 +1,57 @@
+.panel-success{
+    border: 10px double #d6e9c6 !important;
+}
+div.menu .panel-body{
+      font-family: "Tiza",Arial;
+}
+div.panel .panel-body, div.menu .panel-body{
+    background: url("../images/pizarra.jpg") repeat center center;
+    background-color: black;
+    color: whitesmoke;
+}
+form input[type=checkbox]{
+    
+}
+.encabezado_menu{
+    margin-bottom: 40px;
+    text-decoration: underline double;
+}
+table tbody{
+    background: none;
+}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{
+    border: none;
+    vertical-align: middle !important;
+}
+.table-hover > tbody tr:hover{
+    background-color:  rgba(173,215,165,0.5) !important;
+    cursor: pointer;
+} 
+.estado_PENDIENTE{
+    background-color: yellow;
+    color: red;
+}
+.estado_CANCELADO{
+    background-color: red;
+    color: whitesmoke;
+}
+
+.estado_ACEPTADO{
+    background-color: #00CC00;
+    color: whitesmoke;
+}
+
+.total-header{
+    background-color: rgb(232,104,80);
+    color: whitesmoke;
+}
+.total-header, .total-valor{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.total-valor{
+    background-color: rgb(255,239,213);
+}
+form legend > div{
+    padding: 0px !important;
+}

@@ -1,0 +1,121 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}usuario.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Usuarios - Nuevo
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Usuarios - Nuevo
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form  class="form-horizontal" action="{{ constant('ROOT_URL') }}usuario.php?action=registrar" method="POST">
+            <fieldset>
+                <legend>Datos Personales</legend>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="nombre">Nombre</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="nombre" type="text" name="nombre" {% if usuario is defined %} value="{{usuario.getNombre()}}" {% endif %} placeholder="Ingrese el nombre..." required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="apellido">Apellido</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="apellido" type="text" name="apellido" {% if usuario is defined %} value="{{usuario.getApellido()}}" {% endif %}  placeholder="Ingrese el apellido..." required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="dni">DNI</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="dni" type="number" name="dni" {% if usuario is defined %} value="{{usuario.getDocumento()}}" {% endif %}  title="Por favor ingrese un número de documento válido."  placeholder="Ingrese el número de DNI..." required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="email">Email</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="email" type="email" name="email" {% if usuario is defined %} value="{{usuario.getEmail()}}" {% endif %} title="Por favor ingrese un correo válido." placeholder="Ingrese el email..." required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="telefono">Tel&eacute;fono</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="telefono" type="text" name="telefono" {% if usuario is defined %} value="{{usuario.getTelefono()}}" {% endif %} title="Por favor ingrese un número de teléfono." placeholder="Ingrese el número de teléfono..." required="required">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Datos del Sistema</legend>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="usuario">Usuario</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="usuario" type="text" name="usuario" {% if usuario is defined %} value="{{usuario.getUsuario()}}" {% endif %} title="Por favor ingrese un nombre de usuario." placeholder="Ingrese el nombre de usuario..." required="required" pattern="\w+">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="contrasena">Contraseña</label>
+                    <div class="col-md-9">
+                        <input class="form-control"  id="contrasena" type="password" name="password" placeholder="Ingrese la contraseña..." title="La contraseña debserá tener al menos 6 caracteres inclyendo Mayusculas, Minúsculas y Números." required="required"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"  onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                                if (this.checkValidity())
+                                    form.passwordConfirm.pattern = this.value;">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="col-md-3 control-label" for="contrasenaConfirm">Repita la Contraseña</label>
+
+                    <div class="col-md-9">
+                        <input class="form-control"  id="contrasenaConfirm" type="password" name="passwordConfirm" placeholder="Repita la contraseña..." title="Por favor repita la contraseña correctamente." required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="rol">Tipo de Usuario</label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="rol" name="rol" required="required"  title="Por favor seleccione un tipo de usuario." >
+                            <option value="">Seleccionar</option>
+                            {% for rol in usuario_tipos %}
+                                <option {% if usuario is defined and usuario.getRol().getId() == rol.getId() %} selected="selected" {% endif %} value="{{rol.getId()}}">{{rol.getNombre()}}</option>
+                            {% endfor %}
+                        </select> 
+                    </div>
+                </div>
+                {% set hayUbicacion = (usuario is defined and usuario.getRol().getNombre() == 'USUARIO ONLINE')?TRUE: FALSE %}
+                <div id="contenido_ubicacion" class="form-group {% if not hayUbicacion %} oculto {% endif %}">
+                    <label class="col-md-3 control-label" for="ubicacion">Ubicaci&oacute;n</label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="ubicacion" name="ubicacion"  title="Por favor seleccione una ubicación del usuario." >
+                            <option value="">Seleccionar</option>
+                            {% for ubicacion in usuario_ubicacion %}
+                                <option {% if usuario is defined and usuario.getRol().getNombre() == 'USUARIO ONLINE' and usuario.getUbicacion.getId() == ubicacion.getId() %} selected="selected" {% endif %} value="{{ubicacion.getId()}}">{{ubicacion.getNombre()}}</option>
+                            {% endfor %}
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-md-6 text-left">
+                    <a title="Volver" class="btn btn-primary" href="{{ constant('ROOT_URL') }}usuario.php?action=listado">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                    </a>
+                </div>
+                <div class="col-md-6 text-right">
+                    <input title="Registrar" class="btn btn-success" type="submit" value="Registrar">
+                </div>
+            </fieldset>
+            {% include  'csrf_tag.html.twig'%}
+        </form>
+    </div>
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}usuario.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $.Usuario.init();
+            });
+    </script>
+{% endblock %}

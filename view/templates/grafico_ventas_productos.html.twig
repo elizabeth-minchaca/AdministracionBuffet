@@ -1,0 +1,66 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+<link rel="stylesheet"
+	href="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.css" />
+{% endblock %}
+
+{% block container_titulo %}
+Grafico de Ventas de Productos de un rango
+{% endblock %}
+
+{% block botonera %}
+<li class="active">Grafico de Ventas de Productos de un rango</li>
+{% endblock %}
+
+{% block container_html %}
+
+<div class="btn-group pull-left">
+	<form class="form-inline">
+		<div class="form-group">
+			<label for="fechaDesde">Fecha desde:</label> <input type="text"
+				id="datepicker" name="fechaDesde" required="required"> <label
+				for="fechaHasta">hasta:</label> <input type="text" id="datepicker2"
+				name="fechaHasta" required="required"> <a href="#"
+				class="btn btn-primary" onclick="$.GraficoVentas.cargar();">Cargar</a>
+		</div>
+	</form>
+</div>
+<div class="clearfix"></div>
+<div class="panel panel-default">
+	<div id="contenedor"></div>
+</div>
+<div class="hidden">
+	<p>grafico:</p>
+	<button id="exportpdf" type="button" class="btn btn-default"
+		data-type="application/pdf">PDF</button>
+</div>
+
+{% endblock %}
+{% block otherJavascripts %}
+<script src="{{ constant('PATH_URL_JS') }}grafico.js"></script>
+<script src="{{ constant('PATH_URL_JS') }}grafico_ventas.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.Grafico.init();
+		$("#datepicker").datepicker({
+			changeMonth : true
+		});
+		$("#datepicker2").datepicker({
+			changeMonth : true
+		});
+        $.GraficoVentas.init();
+        $("#exportpdf").click(function () {
+            var chart = $('#contenedor').highcharts();
+            chart.exportChart({
+                type: 'application/pdf',
+                filename: 'my-pdf'
+            });
+        });
+
+	});
+</script>
+{% endblock %}

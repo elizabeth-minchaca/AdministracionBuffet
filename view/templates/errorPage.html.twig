@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% block  botonera %}
+    <li>
+        <a class="active" href="{{ urlBack }}">/{{ lugar }} </a>
+    </li> 
+{% endblock  %}
+{% block container_html %}   
+    <div class="texto-centrado">
+        <h1 class="texto-centrado"><span class="glyphicon glyphicon-exclamation-sign"></span><strong>Error</strong></h1>
+        <p class="texto-centrado">{{ mensaje }}</p>
+        <p class="texto-centrado"><a class="btn btn-danger btn-lg" href="{{ urlBack }}" role="button">Volver</a></p>
+        <div></div>
+    </div>
+{% endblock %}

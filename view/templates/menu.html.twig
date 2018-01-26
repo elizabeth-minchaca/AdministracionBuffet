@@ -1,0 +1,193 @@
+<nav class="nav container_menu">
+    <ul class="hidden-xs">
+        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant('ROOT_URL') }}producto.php" title="Listado de Productos">Productos</a>
+                <ul>
+                    <li><a href="{{ constant('ROOT_URL') }}producto.php?action=nuevo"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Producto</a></li>
+                    <li><a href="{{ constant('ROOT_URL') }}producto.php" title="Listado de Productos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Productos</a></li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant('ROOT_URL') }}compra.php" title="Listado de Compras">Compras</a>
+                <ul>
+                    <li><a href="{{ constant('ROOT_URL') }}compra.php?action=nueva_compra"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Compra</a></li>
+                    <li><a href="{{ constant('ROOT_URL') }}compra.php" title="Listado de Compras"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Compras</a></li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant('ROOT_URL') }}venta.php" title="Listado de Ventas">Ventas</a>
+                <ul>
+                    <li><a href="{{ constant('ROOT_URL') }}venta.php?action=nueva" title="Nueva Venta"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Venta</a></li>
+                    <li><a href="{{ constant('ROOT_URL') }}venta.php?action=listado" title="Listado de Ventas"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Ventas</a></li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu">
+                <a href="{{ constant('ROOT_URL') }}menu.php">Men&uacute;</a>
+                <ul>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}menu.php?action=nuevo_menu" title="Nuevo Menu"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Men&uacute;</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}menu.php" title="Listado de Usuarios"><i class="fa fa-list" aria-hidden="true"></i> Listado de Men&uacute;s</a>
+                    </li>
+                </ul>                             
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant('ROOT_URL') }}usuario.php" title="Listado de Usuarios">Usuarios</a>
+                <ul>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=nuevo" title="Nuevo Usuario"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Usuario</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}usuario.php" title="Listado de Usuarios"><i class="fa fa-list" aria-hidden="true"></i> Listado de Usuarios</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=uonline_habilitar" title="Listado de Usuarios ONLINE"><i class="fa fa-list" aria-hidden="true"></i> Usuarios Online para Habilitar</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}pruebasbot.php?action=listado" title="Listado de Usuarios Telegram"><i class="fa fa-list" aria-hidden="true"></i> Usuarios Telegram</a>
+                    </li>                    
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'USUARIO ONLINE' or user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant('ROOT_URL') }}pedido.php?action=listado" title="Pedidos Online">Pedidos</a>
+                <ul>
+                    {% if user.getRol().getNombre() == 'USUARIO ONLINE' %}
+                        <li>
+                            <a href="{{ constant('ROOT_URL') }}pedido.php?action=nuevo" title="Nuevo Pedido Online"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Pedido</a>
+                        </li>
+                        <li>
+                            <a href="{{ constant('ROOT_URL') }}pedido.php?action=mis_pedidos" title="Listado de Usuarios"><i class="fa fa-list" aria-hidden="true"></i> Mis Pedidos</a>
+                        </li>
+                    {% endif %}
+                    {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                        <li>
+                            <a href="{{ constant('ROOT_URL') }}pedido.php?action=listado_pendientes" title="Listado de Pedidos pendientes"><i class="fa fa-list" aria-hidden="true"></i> Pendientes</a>
+                        </li>
+                        <li>
+                            <a href="{{ constant('ROOT_URL') }}pedido.php?action=listado_todos" title="Listado de Pedidos"><i class="fa fa-list" aria-hidden="true"></i> Todos</a>
+                        </li>
+                    {% endif %}                   
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li class="submenu"><a href="{{ constant( 'ROOT_URL' ) }}listado.php">Balance</a>
+                <ul>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=productos_faltantes" title="Listado de productos faltantes"><i class="fa fa-list" aria-hidden="true"></i>  Listado de productos faltantes</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=productos_stock_min" title="Listado de productos con stock mínimo"><i class="fa fa-list" aria-hidden="true"></i>  Listado de productos con stock m&iacute;nimo</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=ganancias_dia" title="Grafico de ganancias por dia"><i class="fa fa-list" aria-hidden="true"></i>  Gr&aacute;fico de ganancias por d&iacute;a</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=venta_productos" title="Grafico de venta de productos"><i class="fa fa-list" aria-hidden="true"></i>  Gr&aacute;fico de venta de productos</a> 
+                    </li>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=listado_ventas" title="Listado de venta de productos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de venta de productos</a>
+                    </li>
+                    <li>
+                        <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=listado_ganancias" title="Listado de ganancias de venta de productos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de ganancias por d&iacute;</a>
+                    </li>                            
+                </ul>
+            </li>
+        {% endif %}
+        {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+            <li>
+                <a href="{{ constant('ROOT_URL') }}configuracion.php">Configuraci&oacute;n</a>
+            </li>
+        {% endif %}
+    </ul>
+    <ul class="menu-xs col-xs-2 hidden-lg hidden-sm hidden-md">
+        <li class="col-xs-12 dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cogs" aria-hidden="true"></i>  Men&uacute;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li class="submenu"><a href="{{ constant('ROOT_URL') }}producto.php" title="Listado de Productos">Productos</a>
+                        <ul>
+                            <li><a href="{{ constant('ROOT_URL') }}producto.php?action=nuevo"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Producto</a></li>
+                            <li><a href="{{ constant('ROOT_URL') }}producto.php" title="Listado de Productos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Productos</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li class="submenu"><a href="{{ constant('ROOT_URL') }}compra.php" title="Listado de Compras">Compras</a>
+                        <ul>
+                            <li><a href="{{ constant('ROOT_URL') }}compra.php?action=nueva_compra"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Compra</a></li>
+                            <li><a href="{{ constant('ROOT_URL') }}compra.php" title="Listado de Compras"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Compras</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li class="submenu"><a href="{{ constant('ROOT_URL') }}venta.php" title="Listado de Ventas">Ventas</a>
+                        <ul>
+                            <li><a href="{{ constant('ROOT_URL') }}venta.php?action=nueva" title="Nueva Venta"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Venta</a></li>
+                            <li><a href="{{ constant('ROOT_URL') }}venta.php?action=listado" title="Listado de Ventas"><i class="fa fa-list" aria-hidden="true"></i>  Listado de Ventas</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li>
+                        <a href="#">Gastos</a>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li>
+                        <a href="#">Men&uacute;</a>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li class="submenu"><a href="{{ constant('ROOT_URL') }}usuario.php" title="Listado de Usuarios">Usuarios</a>
+                        <ul>
+                            <li>
+                                <a href="{{ constant('ROOT_URL') }}usuario.php?action=nuevo" title="Nuevo Usuario"><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo Usuario</a>
+                            </li>
+                            <li>
+                                <a href="{{ constant('ROOT_URL') }}usuario.php" title="Listado de Usuarios"><i class="fa fa-list" aria-hidden="true"></i> Listado de Usuarios</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li>
+                        <a href="#">Pedidos</a>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li class="submenu"><a href="{{ constant( 'ROOT_URL' ) }}listado.php">Balance</a>
+                        <ul>
+                            <li>
+                                <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=productos_faltantes" title="Listado de productos faltantes"><i class="fa fa-list" aria-hidden="true"></i>  Listado de productos faltantes</a>
+                            </li>
+                            <li>
+                                <a href="{{ constant( 'ROOT_URL' ) }}listado.php?action=productos_stock_min" title="Listado de productos con stock mínimo"><i class="fa fa-list" aria-hidden="true"></i>  Listado de productos con stock m&iacute;nimo</a>
+                            </li>
+                            <li>
+                                <a href="#" title="Listado de ingresos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de ingresos</a>
+                            </li>
+                            <li>
+                                <a href="#" title="Listado de gastos"><i class="fa fa-list" aria-hidden="true"></i>  Listado de gastos</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                    <li>
+                        <a href="{{ constant('ROOT_URL') }}configuracion.php">Configuraci&oacute;n</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    </ul>
+</nav>

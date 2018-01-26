@@ -1,0 +1,116 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}menu.css">
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}menu.php?action=listado_menu" class="active"> Men&uacute;s - Listado </a>
+    </li>
+    <li class="active">
+        Men&uacute;s - Editar y Agregar Detalle
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Men&uacute;s - Editar y Agregar Detalle
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="#">
+            <fieldset>
+                <legend>
+                    <div class="col-md-6">
+                        Informaci&oacute;n del Men&uacute;
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ constant('ROOT_URL') }}{{ 'menu.php?action=editar_menu&id='~menu.getId() }}"  title="Editar Fecha" class="btn btn-xs btn-primary">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Fecha
+                        </a>
+                    </div>
+                </legend>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Fecha: </label>
+                    <div class="col-md-9">
+                        <p class="form-control-static texto-cursiva">{{ menu.getFechaFormateada() }}</p>                    	                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Estado: </label>
+                    <div class="col-md-9">
+                        <p class="form-control-static texto-cursiva">{{ menu.getEstadoMenu() }}</p>                    	                    	
+                    </div>
+                </div>                
+            </fieldset>		
+        </form>
+        <fieldset>
+            <legend>
+                <div class="col-md-6">
+                    Productos del Men&uacute;
+                </div>
+                <div class="col-md-6 text-right">
+                    {% if not menu.getHabilitada() %}
+                        <a href="{{ constant('ROOT_URL') }}{{ 'menu.php?action=nuevo_detalle&id='~menu.id }}" class="btn btn-xs btn-primary">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Añadir Producto
+                        </a>
+                    {% endif %} 
+                </div>
+            </legend>
+            <br>
+            <div class="table-responsive col-md-8 col-md-offset-2">
+                <table class="table table-hover table-condensed table-striped table-bordered">            
+                    <thead>
+                        <tr>
+                            <th class="texto-centrado col-md-1" id="posicion">#</th>
+                            <th class="texto-centrado col-md-8" id="producto">Producto</th>
+                            <th class="texto-centrado col-md-2" id="cantidad"> Cantidad</th>
+                            <th class="texto-centrado col-md-1" id="accion">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if menu.getMenuDetalles() | length > 0 and not menu.getHabilitada() %} 
+                            {% for egreso in menu.getMenuDetalles() %}
+                                <tr>
+                                    <td class="texto-centrado" headers="posicion">{{ loop.index }}</td>
+                                    <td class="texto-centrado" headers="producto">{{ egreso.getProducto().getNombre() }}</td>
+                                    <td class="texto-centrado" headers="cantidad">{{ egreso.getCantidad() }}</td>
+                                    <td class="texto-centrado td-accion" headers="accion">
+                                            <a href="#" class="tip btn btn-danger" title="Eliminar" onclick="$.Menu.eliminarDetalle({{ egreso.getId() }});">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">(vac&iacute;o)</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 text-center">
+                {% if not menu.getHabilitada() and menu.getMenuDetalles() | length > 0 %}
+                    <a href="#" class="tip btn btn-success btn-lg" title="Habilitar el menu" onclick="$.Menu.habilitarMenu({{ menu.getId() }});">
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i> Habilitar Men&uacute;
+                    </a>
+                {% endif %} 
+            </div>
+            <div class="col-md-4 text-left">
+                <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}menu.php?action=listado_menu">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                </a>
+            </div>
+        </fieldset>
+    </div>
+{% endblock %}
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}menu.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Menu.init('{{ constant('ROOT_URL') }}');
+        });
+    </script>
+{% endblock %} 

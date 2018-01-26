@@ -1,0 +1,128 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}compra.css">
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}compra.php?action=listado_compras"> Compras - Listado </a>
+    </li>
+    <li>
+        <a href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra_detalle_egreso&id='~idCompra}}" class="active"> Compra ID#{{idCompra}}</a>
+    </li>
+    <li class="active">
+        Editar
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Compras - Agregar Detalle 
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form id="detalleNewForm" class="form-horizontal" action="{{ constant('ROOT_URL') }}{{ 'compra.php?action=submit_detalle_egreso&idCompra='~idCompra }}" method="POST" >
+            <fieldset>
+                <legend>Buscador de Producto</legend>
+                <div class="form-group">
+                    <label  for="codigo" class="col-md-2 control-label">C&oacute;digo de barra</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input id="codigo" type="text" name="codigo" title="C&oacute;digo de producto" placeholder="Ingresar c&oacute;digo..." required="required" class="form-control">
+                            <span class="input-group-btn">
+                                <button id="search" class="btn btn-success" type="button"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <img class="loading oculto" alt="Cargando" src="{{ constant('PATH_URL_IMG') }}loading.gif">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Detalle de Producto</legend>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="marca">Marca: </label>
+                        <div class="col-md-8">
+                            <p class="nueva-venta form-control-static texto-cursiva" id="marca">{% if venta is defined %} {{ venta.getProducto().getMarca()}}  {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="categoria">Categor&iacute;a: </label>
+                        <div class="col-md-8">
+                            <p id="categoria" class="nueva-venta form-control-static texto-cursiva">{% if venta is defined %} {{ venta.getProducto().getCategoria().verCadenaCategorias() }} {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="precio">Precio: </label>
+                        <div class="col-md-8">
+                            <p id="precio" class="nueva-venta form-control-static texto-cursiva">{% if venta is defined %} {{ venta.getProducto().getPrecioVentaUnitario() | number_format(2, '.', ',')}} {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="nombre">Nombre: </label>
+                        <div class="col-md-8">
+                            <p id="nombre" class="nueva-venta form-control-static texto-cursiva">{% if venta is defined %} {{venta.getProducto().getNombre() }} {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="prod_descripcion">Descripci&oacute;n:</label>
+                        <div class="col-md-8">
+                            <p id="prod_descripcion" class="nueva-venta form-control-static texto-cursiva">{% if venta is defined %} {{ venta.getProducto().getDescripcion()}} {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="stock">Stock:</label>
+                        <div class="col-md-8">
+                            <p id="stock" class="nueva-venta form-control-static texto-cursiva">{% if venta is defined %} {{venta.getProducto().getStock() }} {% else %}-vac&iacute;o-{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Informaci&oacute;n del Detalle</legend>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="cantidad" type="number" name="cantidad" placeholder="Ingrese la cantidad..." required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-4 control-label"  for="precioUnitario">Precio Unitario</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="precioUnitario" type="number" name="precioUnitario" step="0.10" min="0.5" placeholder="Ingrese el precio unitario..." required="required">
+                        </div>
+                    </div>
+                </div>
+                <input type="number" id="idCompra" name="idCompra" value="{{ idCompra }}" hidden="hidden">                
+                <div class="col-md-12">
+                    <div class="col-md-6 text-left">
+                        <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra_detalle_egreso&id='~idCompra }}">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                        </a>
+                    </div>
+                    <div class="col-md-12 text-right">
+                    	<input id="addCompra" class="btn btn-primary btn-md"  type="submit" data-loading-text="Agregando..." value="Agregar">
+                    </div>
+                </div>                                    
+            </fieldset>
+            {% include  'csrf_tag.html.twig'%}            
+        </form>
+    </div>  
+{% endblock %}
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}compra.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Compra.init('{{ constant('ROOT_URL') }}');
+            $("#datepicker").datepicker({
+                changeMonth: true
+            });
+        });
+    </script>
+{% endblock %} 

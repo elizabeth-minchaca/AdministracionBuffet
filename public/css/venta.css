@@ -1,0 +1,70 @@
+.input-group .input-group-addon:first-child{
+    background-color: rgb(201,48,44);
+    color: whitesmoke;
+}
+
+.input-group .input-group-addon:last-child{
+    background-color: rgb(68,157,68);
+    color: whitesmoke;
+}
+
+img.loading{
+    width: 40px;
+}
+
+.venta_CANCELADA{
+    background-color: red;
+    color: whitesmoke;
+}
+.venta_ACTIVA{
+    background-color: #00CC00;
+    color: whitesmoke;
+}
+.contenedor-listado > .boton{
+    float: right;
+    margin-bottom: 10px; 
+}
+
+tr.venta_cancelada{
+    background-color: rgb(169,169,169);
+}
+tr.venta_canceladaa td span{
+    text-decoration:line-through;
+}
+
+form p.nueva-venta{
+    background-color: #d0ccc7;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+    border: 1px solid rgb(200,197,194);
+}
+table thead th{
+    vertical-align: middle !important;
+}
+.total-header{
+    background-color: rgb(232,104,80);
+    color: whitesmoke;
+}
+.total-header, .total-valor{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.total-valor{
+    background-color: rgb(255,239,213);
+}
+.total-boton .btn, .td-accion a{
+    width: 100% !important;
+    border-radius: 0px !important;
+}
+.total-boton, .td-accion{
+    padding: 0px !important;
+}
+.td-accion{
+    background-color: #d9534f;
+}
+
+button.swal2-confirm, button.swal2-cancel {
+    margin-left: 10px;
+    margin-right: 10px;
+}

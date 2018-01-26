@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Proyecto 2016 - Buffet UNLP</title>
+        <meta name="description" content="Ssistema para la administración del Buffet de la Facultad de Inform[atica 2016">
+        <meta name="keywords" content="Buffet, UNLP, Informática, Facultad,Proyecto de Software">
+        <meta name="author" content="Grupo15">
+        <meta name="robots" content="all">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block stylesheet %}
+            <link rel="stylesheet" type="text/css" href="{{ constant('PATH_URL_CSS') }}layout.css">
+            <link rel="stylesheet" type="text/css" href="{{ constant('PATH_URL_VENDOR') }}font-awesome-4.6.3/css/font-awesome.min.css">
+            <link rel="stylesheet" type="text/css" href="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/dist/css/bootstrap.min.css" />
+              <link rel="stylesheet" type="text/css" href="{{ constant('PATH_URL_VENDOR') }}sweetalert2/sweetalert2.min.css" />
+        {% endblock %}
+        {% block otherstylesheet %}
+
+        {% endblock %}
+        <!--[if lt IE 9]>
+            <script src="/js/html5shiv.js"></script>
+          <![endif]-->
+    </head>
+    <body>
+        {% block javascripts %}            
+            <script src="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-2.2.3.min.js"></script>
+            <script src="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.js"></script>
+            <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/alert.js"></script>
+            <script src="{{ constant('PATH_URL_VENDOR') }}sweetalert2/sweetalert2.min.js"></script>
+            <script src="{{ constant('PATH_URL_JS') }}layout.js"></script>
+        {% endblock %}
+        {% block otherJavascripts %}
+        {% endblock %}
+        {% block header %}
+            <header class="header col-md-10 col-md-offset-1">
+                <h1 class="texto-centrado">{{config.getTitulo()}}</h1>
+                <h2 class="texto-centrado">-Grupo 15-</h2>
+                {% block menu %}
+                    {% include 'menu.html.twig' %}
+                {% endblock %}
+            </header>
+        {% endblock %}
+        <section class="contenido_container col-md-10 col-md-offset-1">
+            {% block breadcrumbs %}
+                <section class="row breadcrumb_container">
+                    <ol class="breadcrumb col-md-6">
+                        {% block breadcrumbs_container %}
+                            <li>
+                                <a href="{{ constant('ROOT_URL') }}index.php"><i class="fa fa-home" aria-hidden="true"></i>  Index</a>
+                            </li>
+                            <li>
+                                <a href="{{ constant('ROOT_URL') }}index.php?action=home">  Home</a>
+                            </li>
+                            {% block botonera %}
+                            {% endblock %}
+                        {% endblock %}
+                    </ol>
+                    <ol class="breadcrumb col-md-6 text-right">
+                        {% block menu_session %}
+                            {% if user is defined and user %}
+                                <li class="active">
+                                    <strong class="text-capitalize">{{ user.getUsuario() |upper }}</strong> <i class="fa fa-user" aria-hidden="true"></i>{% if user.getRol().getNombre() == 'ADMINISTRADOR' %}<span class="texto-cursiva">(Administrador)</span>{% endif %}
+                                </li>
+                                <li>
+                                    <a href="{{ constant('ROOT_URL') }}index.php?action=logout">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ constant('ROOT_URL') }}index.php?action=login">Ingresar <i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                                </li>
+                            {% endif %}
+                        {% endblock %}
+                    </ol>
+                </section>
+            {% endblock %}
+            <section class="contenido row">
+                {% block container_primary_titulo %}
+                    <div class="col-md-12 titulo-principal text-center">
+                        <h3>{% block container_titulo %}{% endblock %}</h3>
+                    </div>
+                {% endblock %}
+                {% if (error_msj is defined) and not(error_msj is empty) %}
+                    <div class="col-md-12  alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong><span class="glyphicon glyphicon-exclamation-sign"></span> Atenci&oacute;n! - </strong> {{ error_msj }}.
+                    </div>
+                {% endif %}
+                {% if (success_msj is defined) and not(success_msj is empty) %}
+                    <div class="col-md-12  alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong><span class="glyphicon glyphicon-ok-sign"></span> Felicitaciones! - </strong> {{ success_msj }}.
+                    </div>
+                {% endif %}
+                <div class="contenido_html col-md-12">
+                    {% block container_html %}
+                        {% block resultado %}
+                        {% endblock %}
+
+                    {% endblock %}
+                </div>
+            </section>
+        </section>
+        {% block footer %}
+            <footer class="footer col-md-10 col-md-offset-1 text-center">
+                <div class="info_container col-md-3 col-xs-4">
+                    <address>
+                        <strong>Buffet UNLP, 2016</strong><br>
+                        Calle 50 y 120<br>
+                        La Plata, CP 1900<br>
+                        <abbr title="Tel&eacute;fono">Tel:</abbr> (0221) 424-2255
+                    </address>
+
+                    <address>
+                        <strong>Grupo 15 - UNLP</strong><br>
+                        <a href="mailto:#">grupo5@gmail.com</a>
+                    </address>
+                </div>
+                <div class="col-md-12 text-right">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.1113806291555!2d-57.93976138476231!3d-34.9036542803828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2e66a8fcdf951%3A0x9191a5ff1fbbe5d5!2sUNLP+-+Facultad+de+Inform%C3%A1tica!5e0!3m2!1ses-419!2ses!4v1478472461997" width="100%" height="182px" frameborder="0" style="border:0" ></iframe>
+                </div>
+            </footer>
+        {% endblock %}
+    </body>
+    {% block javascript %}
+
+    {% endblock %}
+</html>

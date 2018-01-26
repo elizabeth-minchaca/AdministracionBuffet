@@ -1,0 +1,55 @@
+section.contenido{
+    background: url("../images/buffet.jpg") no-repeat center center;
+    border-radius: 20px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.index_container{
+    padding-top: 20px;
+}
+p.capital:first-letter{
+    float:left;
+    color:whitesmoke;
+    font-size:50px;
+    line-height:60px;
+    padding:2px;
+    font-family: "Tiza",Arial,Tahoma,sans-serif;
+    margin-right: 5px;
+}
+div.deshabilitado{
+    width: 100%;
+    background-color: red;
+    border: 1px solid black;
+    padding-bottom: 15px;
+    padding-top: 15px; 
+    color: whitesmoke;
+}
+div.panel .panel-body, div.menu .panel-body{
+    background: url("../images/pizarra.jpg") repeat center center;
+    background-color: black;
+    color: whitesmoke;
+}
+div.panel .panel-body{
+    font-family: "Tiza",sans-serif;
+}
+div.menu .panel-body{
+      font-family: "Tiza",Arial;
+}
+div.menu .panel-body p{
+    margin-bottom: 45px;
+}
+div.menu .panel-body h2{
+    margin-bottom: 40px;
+    text-decoration: underline; 
+}
+.panel-info{
+    border: 10px double #bce8f1 !important;
+}
+.panel-warning{
+    border: 10px double #faebcc !important;
+}
+.panel-success{
+    border: 10px double #d6e9c6 !important;
+}

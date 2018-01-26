@@ -1,0 +1,64 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+
+{% endblock %}
+
+{% block container_titulo %}
+    Listado de Productos con Stock M&iacute;nimo
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Listado de Productos con Stock M&iacute;nimo
+    </li>
+{% endblock %}
+
+{% block container_html %}
+<div class="col-md-12">
+	<div class="table-responsive">
+	
+        {% if productos | length > 0 %}	
+		<table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center col-md-1" id="posicion">#</th>
+                        <th class="text-center col-md-2" id="nombre">Nombre</th>
+                        <th class="text-center col-md-2" id="marca">Marca</th>
+                        <th class="text-center col-md-2" id="codigobarra">Codigo Barra</th>
+                        <th class="text-center col-md-1" id="stockactual">Stock actual</th>
+                        <th class="text-center col-md-1" id="stockminimo">Stock M&iacute;nimo</th>                    
+                        <th class="text-center col-md-1" id="categoria">Categoria</th>                    
+                        <th class="text-center col-md-1" id="accion">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prod in productos %}
+                        <tr>
+                            <td class="texto-centrado" headers="posicion">
+                                {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                            </td>
+                            <td class="texto-centrado" headers="nombre"> {{ prod.nombre }} </td>
+                            <td class="texto-centrado" headers="marca"> {{ prod.marca }} </td>
+                            <td class="texto-centrado" headers="codigobarra"> {{ prod.codigoBarra }} </td>
+                            <td class="texto-centrado" headers="stockactual"> {{ prod.stock }} </td>
+                            <td class="texto-centrado" headers="stockminimo"> {{ prod.stockMinimo }} </td>
+                            <td class="texto-centrado" headers="categoria">{{ prod.categoria.nombre }}</td>                    
+                            <td class="texto-centrado" headers="accion">
+                                <a class="btn btn-success btn-xs" title="Ver" href="{{ constant('ROOT_URL') }}{{ 'producto.php?action=ver_producto&id='~prod.id }}">
+                                	<i class="fa fa-eye" aria-hidden="true"></i>
+                                </a> 
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                </tbody>
+            </table>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'listado.php?action=productos_stock_min'} %}
+
+        {% else %}
+            <br><br>
+            <p class="texto-negrita texto-centrado">NO HAY PRODUCTOS CON STOCK M&Iacute;NIMO</p>   
+        {% endif %}     
+    </div>    
+</div>       
+{% endblock %} 

@@ -1,0 +1,59 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}menu.css">
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.css" />
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}menu.php?action=listado_menu" class="active"> Men&uacute;s - Listado </a>
+    </li>
+    <li>
+        <a href="{{ constant('ROOT_URL') }}menu.php?action=editar_menu_detalle&id={{menu.getId()}}"> Men&uacute; {{menu.getFechaFormateada()}} </a>
+    </li>
+    <li class="active">
+        Editar
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Men&uacute; - Editar Fecha
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="{{ constant('ROOT_URL') }}menu.php?action=submit_editar_menu" method="POST">
+            <fieldset>
+                <legend>Información del Men&uacute;</legend>               
+                <div class="form-group form-group-lg">
+                    <label class="col-md-4 control-label" for="fechaMenu">Fecha del Men&uacute;</label>
+                    <div class="col-md-4">
+                        <input class="form-control  input-lg text-center" type="text" id="datepicker" name="fechaMenu" {% if fechaMenu is defined %} value = "{{ fechaMenu }}" {% else %} value= "{{ menu.getFechaFormateada() }}" {% endif %}>
+                    </div>
+                </div>
+                <input hidden="hidden" type="number" id="idMenu" name="idMenu" value="{{ menu.getId() }}">              
+            </fieldset>
+            <div class="col-md-6 text-left">
+                <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}menu.php?action=editar_menu_detalle&id={{menu.getId()}}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                </a>
+            </div>
+            <div class="col-md-6 text-right">
+                <input class="btn btn-success" type="submit" value="Guardar">
+            </div>
+            {% include  'csrf_tag.html.twig'%}                           
+        </form>
+    </div>  
+{% endblock %}
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}menu.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Menu.init('{{ constant('ROOT_URL') }}');
+            $("#datepicker").datepicker({
+                changeMonth: true
+            });
+        });
+    </script>
+{% endblock %} 

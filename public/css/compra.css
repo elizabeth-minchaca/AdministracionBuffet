@@ -1,0 +1,39 @@
+.ui-datepicker-calendar {
+    background-color: white;
+}
+.ui-datepicker-header {
+    background-color: buttonface;
+}
+td.compra-finalizada, td.compra-pendiente{
+    color: whitesmoke;
+    font-weight: bold;
+}
+td.compra-pendiente{
+    background-color: rgb(201,48,44);
+}
+td.compra-finalizada{
+    background-color: rgb(40,96,144);
+}
+div.col-factura{
+    border-left: dashed 2px rgb(201,48,44);
+}
+legend > div{
+    padding: 0px !important;
+}
+
+div.col-factura{
+    border-left: 2px dashed rgb(201, 48, 44); 
+}
+#facturaImgDesc{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+form p.nueva-venta {
+    background-color: #d0ccc7;
+    border: 1px solid rgb(200, 197, 194);
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}

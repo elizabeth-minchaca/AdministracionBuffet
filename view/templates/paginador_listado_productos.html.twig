@@ -1,0 +1,30 @@
+<div id="listadoPaginador" class="col-md-12 text-center">
+    {% if cant_paginas > 1 %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li {% if pagina_actual == 1%} class="disabled"{% endif %}>
+                    <a href="#" onclick="$.Listado.traerPagProd(1);">Primera</a>
+                </li>
+                <li {% if pagina_actual == 1%} class="disabled"{% endif %}>
+                    <a aria-label="Previous" href="#" onclick="$.Listado.traerPagProd({{ (pagina_actual == 1)?1:(pagina_actual - 1) }});">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </a>                    
+                </li>
+                {% for i in 1..cant_paginas %}
+                    <li {{(i==pagina_actual)?'class="active"':''}}>
+							<a href= "#" onclick="$.Listado.traerPagProd({{ i }});">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <li {% if pagina_actual == cant_paginas %} class="disabled"{% endif %}>
+                    <a aria-label="Next" href="#" onclick="$.Listado.traerPagProd({{ (pagina_actual == cant_paginas)?cant_paginas:(pagina_actual + 1) }});">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    
+                </li>
+                <li {% if pagina_actual == cant_paginas %} class="disabled"{% endif %}>
+                    <a href="#" onclick="$.Listado.traerPagProd({{ cant_paginas }});">&Uacute;ltima</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+</div>

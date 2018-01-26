@@ -1,0 +1,97 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}venta.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Ventas - Listado
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Ventas - Listado
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center col-md-1">#</th>
+                        <th class="text-center col-md-1">ID</th>
+                        <th class="text-center col-md-3">Fecha</th>
+                        <th class="text-center col-md-3">Registrada por</th>
+                        <th class="text-center col-md-1">Productos</th>
+                        <th class="text-center col-md-1">Monto</th>
+                        <th class="text-center col-md-1">Estado</th>
+                        <th class="col-md-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if ventas | length == 0 %}
+                        <tr class="tr-vacio" >
+                            <td colspan="8" class="text-center texto-cursiva">(Vacia)</td>
+                        </tr>
+                    {% else %}
+                        {% for venta in ventas %}
+                            {% set total = 0 %}
+                            {% for detalle in venta.getDetalles() %}
+                                {% set total = total + (detalle.getPrecio_unitario()*detalle.getCantidad()) %}
+                            {% endfor %}
+                            <tr class="text-center">
+                                <th class="text-center">
+                                    {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                </th>
+                                <td>
+                                    {{venta.getId()}}
+                                </td>
+                                <td>
+                                    {{ venta.getFecha() | date('d/m/Y H:i:s') }}
+                                </td>
+                                <td>
+                                    <a title="Ver usuario" href="{{ constant('ROOT_URL') }}usuario.php?action=ver&id={{ venta.getEmpleado().getId() }}">
+                                        <strong>{{ venta.getEmpleado().getApellido | upper }} </strong> {{venta.getEmpleado().getNombre()}}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ venta.getDetalles() | length }}
+                                </td>
+                                <td>
+                                    ${{ total | number_format(2, ',', '.')}}
+                                </td>
+
+                                <td class="venta_{{ venta.getBajaLogica()?'CANCELADA':'ACTIVA'}}">
+                                    {{ venta.getBajaLogica()?'CANCELADA':'ACTIVA' }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-success btn-xs" href="{{ constant('ROOT_URL') }}venta.php?action=ver&id={{ venta.getId() }}" title="Ver">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    {% if not venta.getBajaLogica() %}
+                                        <a class="btn btn-danger btn-xs" onclick="$.Venta.cancelar({{ venta.getId() }})" href="#" title="Cancelar">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+        {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'venta.php?action=listado'} %}
+    </div>
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}venta.js"></script>
+    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $.Venta.init('{{ constant('ROOT_URL') }}');
+                                        });
+    </script>
+{% endblock %}

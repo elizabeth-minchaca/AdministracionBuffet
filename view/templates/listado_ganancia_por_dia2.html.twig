@@ -1,0 +1,82 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+<link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.css" />
+{% endblock %}
+
+{% block container_titulo %}
+   Listado de Ganancias por D&iacute;a para un Rango de Fechas
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+   Listado de Ganancias por D&iacute;a para un Rango de Fechas
+    </li>
+{% endblock %}
+
+{% block container_html %}
+<div class="btn-group pull-left">
+	<form id="listadoGananciaForm" class="form-inline" action="{{ constant('ROOT_URL') }}listado.php?action=buscar_ganancias" method="POST">
+		<div class="form-group">
+			<label for="fechaDesde">Fecha desde:</label>
+			<input type="text" id="datepicker" name="fechaDesde" required="required">
+			<label for="fechaHasta">hasta:</label>
+			<input type="text" id="datepicker2" name="fechaHasta" required="required"> 
+			<input id="searchProductosSubmit" class="btn btn-primary" type="submit" value="Cargar">
+		</div>
+	</form>
+</div>
+<div class="clearfix"></div>
+{#	{% if productos | length > 0 %}	#}
+<div class="col-md-12">
+	<br>
+	<div id="showResult" class=" text-center alert alert-success xs" role="alert">
+         <p></p>
+    </div>
+	
+	<div  class="table-responsive">
+		<div id="listProd">
+    		<table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                    <tr>
+                     	<th class="text-center col-md-1" id="posicion">#</th>
+                        <th class="text-center col-md-2" id="nombre">Fecha</th>
+                        <th class="text-center col-md-1" id="cantidad">Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+               {% for prod in resultados %}
+                    <tr>
+                        <td class="texto-centrado" headers="posicion">
+                            {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                        </td>
+                        <td class="text-center" headers="nombre"> {{ prod.fecha }} </td>
+                        <td class="text-center" headers="cantidad"> {{ prod.monto }} </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include 'paginador_listado_productos.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas} %}
+
+{#    {% else %}
+       	<br><br>
+        <p class="texto-negrita texto-centrado">NO HAY PRODUCTOS VENDIDOS EN ESE RANGO DE FECHAS</p>   
+    {% endif %} #}
+	</div>    
+</div>       
+{% endblock %} 
+{% block otherJavascripts %}
+<script src="{{ constant('PATH_URL_JS') }}listado.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.Listado.init('{{ constant('ROOT_URL') }}');
+ 		$("#datepicker").datepicker({
+			changeMonth : true
+		});
+		$("#datepicker2").datepicker({
+			changeMonth : true
+		});		
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}producto.css">
+{% endblock %}
+
+{% block botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}producto.php?action=listado_productos" class="active " > Productos - Listado </a>
+    </li>
+    <li class="active">
+        Productos - ver
+    </li>
+{% endblock %}
+
+{% block container_titulo %}
+    Productos - Ver
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="#">
+            <fieldset>
+                <legend>Información de Producto</legend>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Nombre: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getNombre() }}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Marca: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getMarca() }}</p>                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">C&oacute;digo de barra: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getCodigoBarra() }}</p>                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Stock m&iacute;nimo: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getStockMinimo() }}</p>                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Stock actual: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getStock() }}</p>                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Precio de venta unitario: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getPrecioVentaUnitario() }}</p>                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Categor&iacute;a: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getCategoria().verCadenaCategorias() }}</p>                    	                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Descripci&oacute;n: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">{{ producto.getDescripcion() }}</p>                    	                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 texto-derecha">
+                        <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}producto.php?action=listado_productos">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                        </a>
+                    </div>
+                </div>  
+            </fieldset>
+        </form>
+    </div>  {% endblock %} 

@@ -1,0 +1,93 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}compra.css">
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.css" />
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}compra.php?action=listado_compras"> Compras - Listado </a>
+    </li>
+    <li>
+        <a href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra_detalle_egreso&id='~compra.getId()}}" class="active"> Compra ID#{{compra.getId()}}</a>
+    </li>
+    <li class="active">
+        Editar
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Compras - Editar (ID#{{compra.getId()}})
+{% endblock %}
+
+{% block container_html %}
+    <div class="contenedor-form">
+        <form class="form-horizontal" action="{{ constant('ROOT_URL') }}compra.php?action=submit_editar_compra" method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Información de Compra</legend>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="idProveedor">Proveedor</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="idProveedor" name="idProveedor" >
+                                <option value="">Seleccionar</option>
+                                {% for proveedor in proveedores %}
+                                    <option value="{{ proveedor.id }}" {% if (idProveedor is defined) and (idProveedor == proveedor.id) %} selected {% elseif proveedor.id == compra.getProveedor().getId() %} selected {% endif %}>{{ proveedor.getNombre() }} - {{ proveedor.getCuit() }}</option>
+                                {% endfor %}	
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="datepicker">Fecha de Compra</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="datepicker" type="text" name="fechaCompra" {% if fechaCompra is defined %} value = "{{ fechaCompra }}" {% else %} value= "{{ compra.getFechaFormateada() }}" {% endif %}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="factura">Factura Digital</label>
+                        <div class="col-md-8">              
+                            <button onclick="$.Compra.uploadImg();" type="button" class="btn btn-info" aria-label="Left Align">
+                                <i class="fa fa-upload" aria-hidden="true"></i> Cargar</span>
+                            </button>
+                            <p id="facturaImgDesc" class="texto-cursiva">
+                                <strong>(No se seleccion&oacute; una nueva imagen)</strong></br>
+                                <span></span>
+                            </p>
+                            <input id="factura" type="file" class="hidden" name="factura">
+                        </div>
+                    </div>  
+                </div>
+                <div class="col-md-6 col-factura">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <img class="imagen img-thumbnail" id="img_destino" alt="Factura Escaneada" src="data:image/png;base64,{{compra.factura}}" />
+                        </div>
+                        <h4 class="text-center">Factura Digital</h4>
+                    </div> 
+                    <input hidden="hidden" type="number" id="idCompra" name="idCompra" value="{{ compra.getId() }}">   
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 text-left">
+                        <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra_detalle_egreso&id='~compra.getId()}}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</a>
+                    </div>
+                    <div class="col-md-6  text-right">
+                        <input class="btn btn-success" type="submit" value="Guardar">
+                    </div>
+                </div>  
+            </fieldset>
+            {% include  'csrf_tag.html.twig'%}                                             
+        </form>
+    </div>  
+{% endblock %} 
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}compra.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Compra.init('{{ constant('ROOT_URL') }}');
+            $("#datepicker").datepicker({
+                changeMonth: true
+            });
+        });
+    </script>
+{% endblock %} 

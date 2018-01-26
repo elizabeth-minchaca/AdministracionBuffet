@@ -1,0 +1,73 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}pedido.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Pedidos Pendientes
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Pedidos Pendientes
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-10 col-md-offset-1">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>       
+                    <tr>
+                        <th class="text-center col-md-1">#</th>
+                        <th class="text-center col-md-3">Estado</th>
+                        <th class="text-center col-md-3">Realizado</th>
+                        <th class="text-center col-md-2">Cantidad Productos</th>
+                        <th class="text-center col-md-2">Precio del Pedido</th>
+                        <th class="text-center col-md-1"></th>
+                    </tr>
+                </thead>
+                <tbody>    
+                    {% if pedidos | length > 0 %}
+                        {% for pedido in pedidos %}
+                            {% set cantTotal = 0 %}
+                            {% set precioTotal = 0 %}
+                            {% for detalle in pedido.getDetalles() %}
+                                {% set cantTotal = cantTotal + detalle.getCantidad() %}
+                                {% set precioTotal = precioTotal + detalle.getCantidad() * detalle.getProducto().getPrecioVentaUnitario() %}
+                            {% endfor %}
+                            <tr>
+                                <th class="texto-centrado">
+                                    {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                </th>
+                                <td class="text-center">
+                                    <span class="texto-negrita estado_{{ pedido.getEstado().getNombre() | upper }}">{{ pedido.getEstado().getNombre() | upper }}</span>
+                                </td>
+                                <td class="texto-centrado">
+                                    <span class="texto-negrita">{{ pedido.getFecha() | date('d/m/Y H:i:s') }}</span>
+                                </td>                                
+                                <td class="texto-centrado">
+                                    <span>{{ cantTotal }}</span>
+                                </td>
+                                <td class="texto-centrado">
+                                    <span>${{ precioTotal }}</span>
+                                </td>
+                                <td class="texto-centrado accion">
+                                    <a class="btn btn-success btn-xs" title="Ver Pedido" href="{{ constant('ROOT_URL') }}pedido.php?action=ver&id={{ pedido.getId() }}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                    {% else %}
+                        <tr class="tr-vacio">
+                            <td colspan="6"  class="text-center">(vac&iacute;o)</td>
+                        </tr>
+                    {% endif %}
+                </tbody>   
+            </table>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'pedido.php?action=listado_pendientes'} %}
+        </div>
+    </div>
+{% endblock %}

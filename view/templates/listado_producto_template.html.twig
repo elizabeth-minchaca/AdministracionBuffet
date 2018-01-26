@@ -1,0 +1,22 @@
+		<table class="table table-hover table-condensed table-striped table-bordered">
+            <thead>
+                <tr>
+                 	<th class="text-center col-md-1" id="posicion">#</th>
+                    <th class="text-center col-md-2" id="nombre">Nombre</th>
+                    <th class="text-center col-md-1" id="cantidad">Cantidad</th>
+                    <th class="text-center col-md-1" id="porcentaje">Porcentaje</th>
+                </tr>
+            </thead>
+            <tbody>
+           {% for prod in productos %}
+                <tr>
+                    <td class="texto-centrado" headers="posicion">
+                        {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                    </td>
+                    <td class="text-center" headers="nombre"> {{ prod.PRODUCTO }} </td>
+                    <td class="text-center" headers="cantidad"> {{ prod.CANTIDAD }} </td>
+                    <td class="text-center" headers="porcentaje"> {{ prod.TOTAL }} </td>  
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>

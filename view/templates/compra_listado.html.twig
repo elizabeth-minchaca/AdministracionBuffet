@@ -1,0 +1,77 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}compra.css"> 
+{% endblock %}
+
+{% block container_titulo %}
+    Compras - Listado
+{% endblock %}
+
+{% block  botonera %}
+    <li class="active">
+        Compras - Listado
+    </li>
+{% endblock  %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+
+            <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center col-md-1" id="posicion">#</th>
+                        <th class="text-center col-md-2" id="proveedor">Proveedor</th>
+                        <th class="text-center col-md-2" id="cuit_proveedor">CUIT</th>
+                        <th class="text-center col-md-2" id="fecha">Fecha</th>
+                        <th class="text-center col-md-2" id="estado">Estado</th>
+                        <th class="text-center col-md-2" id="accion">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if compras | length > 0 %}
+                        {% for compr in compras %}
+                            <tr>
+                                <th class="texto-centrado" headers="posicion">
+                                    {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                </th>
+                                <td class="texto-centrado" headers="proveedor"> {{ compr.getProveedor().getNombre() }} </td>
+                                <td class="texto-centrado" headers="cuit_proveedor"> {{ compr.getProveedor().getCuit() }} </td>
+                                <td class="texto-centrado" headers="fecha"> {{ compr.getFechaFormateada() }} </td>
+                                <td class="texto-centrado {{ compr.getFinalizada()?'compra-finalizada':'compra-pendiente' }}" headers="estado"> {{ compr.getEstadoCompra() }} </td>
+                                <td class="texto-centrado" headers="accion">
+                                    {% if compr.getFinalizada() %}	
+                                        <a class="btn btn-success btn-xs" title="Ver" href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=ver_compra&id='~compr.getId() }}">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a> 
+                                    {% else %}
+                                        <a class="btn btn-primary btn-xs" title="Editar" href="{{ constant('ROOT_URL') }}{{ 'compra.php?action=editar_compra_detalle_egreso&id='~compr.getId() }}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a> 
+                                        <a  class="btn btn-danger btn-xs" title="Eliminar" href="#" onclick="$.Compra.eliminarCompra({{ compr.getId() }});">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}  
+                    {% else %}  
+                        <tr class="tr-vacio">
+                            <td colspan="6">(vac&iacute;0)</td>
+                        </tr>
+                    {% endif %}  
+                </tbody>
+            </table>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'compra.php?action=listado_compras'} %}
+        </div> 
+    </div>
+{% endblock %} 
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}compra.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Compra.init('{{ constant('ROOT_URL') }}');
+        });
+    </script>
+{% endblock %} 

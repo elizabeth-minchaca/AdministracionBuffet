@@ -1,0 +1,76 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}menu.css">
+{% endblock %}
+
+{% block  botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}menu.php?action=listado_menu" class="active"> Men&uacute; - Listado</a>
+    </li>
+    <li class="active">
+        Ver
+    </li>
+{% endblock  %}
+
+{% block container_titulo %}
+    Men&uacute; - Ver
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="#">
+            <fieldset>
+                <legend>Informaci&oacute;n del men&uacute;</legend>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Fecha: </label>
+                    <div class="col-md-8">
+                        <p class="form-control-static texto-cursiva">{{ menu.getFechaFormateada() }}</p>                    	                    	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Estado: </label>
+                    <div class="col-md-8">
+                        <p class="form-control-static texto-cursiva">{{ menu.getEstadoMenu() }}</p>                    	                    	
+                    </div>
+                </div>                
+            </fieldset>		
+        </form>
+
+        <fieldset>
+            <legend>Productos del men&uacute;</legend>
+            <div class="table-responsive col-md-8 col-md-offset-2">
+                <table class="table table-condensed table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="texto-centrado" id="posicion">#</th>
+                            <th class="texto-centrado" id="producto">Producto</th>
+                            <th class="texto-centrado" id="cantidad">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if menu.getMenuDetalles() | length > 0 %}
+                            {% for egreso in menu.getMenuDetalles() %}
+                                <tr>
+                                    <th class="texto-centrado" headers="posicion">{{ loop.index }}</th>
+                                    <td class="texto-centrado" headers="producto">{{ egreso.getProducto().getNombre() }}</td>
+                                    <td class="texto-centrado" headers="cantidad">{{ egreso.getCantidad() }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center">(vac&iacute;o)</td>
+                            </tr>        	                    	
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+
+        <div class="col-md-12 text-right">
+            <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}menu.php?action=listado_menu">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+            </a>
+        </div>
+    </div>
+{% endblock %}

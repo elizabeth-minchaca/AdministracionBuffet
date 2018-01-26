@@ -1,0 +1,83 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}menu.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Men&uacute;s - Listado de Men&uacute;s
+{% endblock %}
+
+{% block  botonera %}
+    <li class="active">
+        Men&uacute; - Listado
+    </li>
+{% endblock  %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="col-md-12 text-right">
+            <a href="#"  title="Enviar Menu a los usuarios" class="btn btn-success" role="button" onclick="$.Menu.enviar();">
+                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>  Enviar Men&uacute; <i class="fa fa-exclamation" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="clearfix"></div>        
+        <div class="table-responsive col-md-8 col-md-offset-2">
+            {% if menus | length > 0 %}	
+                <table class="table table-hover table-condensed table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="texto-centrado col-md-1" id="posicion">#</th>
+                            <th class="texto-centrado col-md-4" id="fecha">Fecha</th>
+                            <th class="texto-centrado col-md-5" id="estado">Estado</th>
+                            <th class="texto-centrado col-md-2" id="accion">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for menu in menus %}
+                            <tr>
+                                <th class="texto-centrado" headers="posicion">
+                                    {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                </th>
+                                <td class="texto-centrado" headers="fecha"> 
+                                    {{ menu.getFechaFormateada() }} 
+                                </td>
+                                <td class="texto-centrado" headers="estado"> 
+                                    {{ menu.getEstadoMenu() }} 
+                                </td>
+                                <td class="texto-centrado" headers="accion">
+                                    {% if menu.getHabilitada() %}	
+                                        <a href="{{ constant('ROOT_URL') }}{{ 'menu.php?action=ver_menu&id='~menu.getId() }}" class="tip btn btn-success btn-xs" title="Ver">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a> 
+                                    {% else %}
+                                        <a href="{{ constant('ROOT_URL') }}{{ 'menu.php?action=editar_menu_detalle&id='~menu.getId() }}" class="tip  btn btn-primary btn-xs" title="Editar">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a> 
+                                        <a href="#" class="tip  btn btn-danger btn-xs" title="Eliminar" onclick="$.Menu.eliminarMenu({{ menu.getId() }});">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'menu.php?action=listado_menu'} %}
+
+        {% else %}  
+            <br><br>
+            <p class="texto-negrita texto-centrado">NO HAY MENUS</p>
+        {% endif %}  
+    </div> 
+</div>    
+{% endblock %} 
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}menu.js"></script>
+	<script type="text/javascript">
+           $(document).ready(function () {
+               $.Menu.init('{{ constant('ROOT_URL') }}');
+           });
+    </script>
+{% endblock %}

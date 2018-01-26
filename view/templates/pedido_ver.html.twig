@@ -1,0 +1,118 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}pedido.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Pedido Online - Ver (ID#{{pedido.getId()}})
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Pedido Online - Ver
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" method="POST" action="{{ constant('ROOT_URL') }}pedido.php?action=aceptar">
+            <fieldset>
+                <legend>
+                    <div class="col-md-6">Información del Pedido</div>
+                    <div class="col-md-6 text-right">
+                        <a {% if (esCancelable == FALSE and user.getRol().getNombre() == 'USUARIO ONLINE') or pedido.getEstado().getNombre() != 'PENDIENTE' %} title="No esta permitido cancelar" disabled="disabled" href="#" {% else %} title="Cancelar pedido" href="{{ constant('ROOT_URL') }}pedido.php?action=cancelar&id={{pedido.getId()}}" {% endif %} class="btn btn-danger btn-xs">
+                            <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
+                        </a>
+                        <input type="hidden" name="id" value="{{pedido.getId()}}">
+                        {% if user.getRol().getNombre() == 'GESTION' or user.getRol().getNombre() == 'ADMINISTRADOR' %}
+                            <button type="submit" id="pedido_aceptar" {% if pedido.getEstado().getNombre() != 'PENDIENTE' %} disabled="disabled" {% endif %} class="btn btn-success btn-xs">
+                                <i class="fa fa-ban" aria-hidden="true"></i> Aceptar
+                            </button>
+                        {% endif %}
+                    </div>
+                </legend>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Estado: </label>
+                    <div class="col-md-8">
+                        <p class="form-control-static texto-cursiva">
+                            <strong class="estado_{{ pedido.getEstado().getNombre() |upper }}">{{ pedido.getEstado().getNombre() |upper }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Realizado: </label>
+                    <div class="col-md-8">
+                        <p class="form-control-static texto-cursiva">
+                            {{pedido.getFecha() | date('d/m/Y H:i:s') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Comentarios: </label>
+                    <div class="col-md-8">
+                        <p  class="form-control-static texto-cursiva">
+                            {{ pedido.getObservacion() }}
+                        </p>
+                    </div>
+                </div>
+
+            </fieldset>
+            <fieldset>
+                <legend>Productos del Pedido</legend>
+                <div class="col-md-10 col-md-offset-1 table-responsive">
+                    <table class="table table-striped  table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center col-md-1">#</th>
+                                <th class="text-center col-md-7">Producto</th>
+                                <th class="text-center col-md-2">Precio Unitario</th>
+                                <th class="text-center col-md-2">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set total = 0 %}
+                            {% for detalle in pedido.getDetalles() %}
+                                {% set total = total + ( detalle.getProducto().getPrecioVentaUnitario() * detalle.getCantidad()) %}
+                                <tr class="text-center" >
+                                    <th class="text-center  ">
+                                        {{ loop.index }}
+                                    </th>
+                                    <td>
+                                        {{ detalle.getProducto().getNombre() | capitalize}} ({{ detalle.getProducto().getMarca() | upper}})
+                                    </td>
+                                    <td>
+                                        ${{ detalle.getProducto().getPrecioVentaUnitario() | number_format(2, ',', '.') }}
+                                    </td>
+                                    <td>
+                                        {{ detalle.getCantidad() }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-center total-header">
+                                    PRECIO
+                                </td>
+                                <td colspan="2" class="text-center total-valor">
+                                    ${{ total |number_format(2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}pedido.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Pedido.init();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}usuario.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Usuarios Telegram - Listado
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Usuarios Telegram - Listado
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="col-md-12 text-right">
+            <a href="#"  title="Enviar Menu a los usuarios" class="btn btn-success" role="button" onclick="$.Menu.enviar();">
+                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>  Enviar Men&uacute; <i class="fa fa-exclamation" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+        <fieldset>
+            <legend>Usuarios</legend>
+            <div class="table-responsive">                         	
+                <table class="table table-condensed table-striped table-bordered">
+                    <thead>       
+                        <tr>
+                            <th class="text-center col-md-1">#</th>
+                            <th class="text-center col-md-1">ID</th>
+                            <th class="text-center col-md-2">Nombre</th>
+                            <th class="text-center col-md-2">Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>    
+                        {% if usuarios | length > 0 %}
+                            {% for usuario in usuarios %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                    </td>
+                                    <td class="text-center">
+                                        <span>{{ usuario.getFromId() }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="texto-negrita">{{ usuario.getFirstName() | capitalize }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span>{{ usuario.getUserName() }}</span>
+                                    </td>
+                                </tr>    
+                            {% endfor %}
+                        {% else %}
+                            <tr class="tr-vacio">
+                                <td colspan="4"  class="text-center">(vac&iacute;o)</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>   
+                </table>
+        </fieldset>
+        {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'pruebasbot.php?action=listado'} %}
+    </div>
+</div>    
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}menu.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $.Menu.init('{{ constant('ROOT_URL') }}');
+            });
+    </script>
+{% endblock %}

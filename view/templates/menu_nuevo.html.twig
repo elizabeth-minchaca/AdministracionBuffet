@@ -1,0 +1,47 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}menu.css">
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}jquery/jquery-ui-1.11.4/jquery-ui.css" />
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Men&uacute; - Nuevo
+    </li>
+{% endblock %}
+
+{% block container_titulo %}
+    Men&uacute; - Nuevo
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" action="{{ constant('ROOT_URL') }}menu.php?action=submit_menu" method="POST">
+            <fieldset>
+                <legend>Información del Men&uacute;</legend>
+                <div class="form-group form-group-lg">
+                    <label class="col-md-3 control-label" for="fechaMenu">Fecha del Men&uacute;</label>
+                    <div class="col-md-6">
+                        <input class="form-control input-lg text-center"  type="text" id="datepicker" name="fechaMenu" placeholder="Seleccione una fecha" required="required">
+                    </div>
+                    <div class="col-md-3">
+                    	<input class="btn btn-success btn-lg" type="submit" data-loading-text="Creando..." value="Registrar">
+                    </div>
+                </div>
+            </fieldset> 
+            {% include  'csrf_tag.html.twig'%}                                 
+        </form>
+    </div>  
+{% endblock %} 
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}menu.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Menu.init('{{ constant('ROOT_URL') }}');
+            $("#datepicker").datepicker({
+                changeMonth: true
+            });
+        });
+    </script>
+{% endblock %} 

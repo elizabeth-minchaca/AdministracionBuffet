@@ -1,0 +1,10 @@
+tr.usuario_eliminado{
+    background-color: rgb(169,169,169);
+}
+tr.usuario_eliminado td span{
+    text-decoration:line-through;
+}
+table td.usuario-nohabilitado{
+    background-color: rgb(201,48,44);
+    color: whitesmoke;
+}

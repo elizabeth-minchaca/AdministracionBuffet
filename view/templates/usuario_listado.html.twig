@@ -1,0 +1,89 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}usuario.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Usuarios - Listado
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">
+        Usuarios - Listado
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>       
+                    <tr>
+                        <th class="text-center col-md-1">#</th>
+                        <th class="text-center col-md-3">Nombre</th>
+                        <th class="text-center col-md-2">DNI</th>
+                        <th class="text-center col-md-3">Usuario (Rol)</th>
+                        <th class="text-center col-md-1">Habilitado</th>
+                        <th class="text-center col-md-2">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>    
+                    {% if usuarios | length > 0 %}
+                        {% for usuario in usuarios %}
+                            <tr {% if usuario.getBajaLogica() %} class="usuario_eliminado" {% endif %}>
+                                <th class="texto-centrado">
+                                    {% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}
+                                </th>
+                                <td>
+                                    <span class="texto-negrita">{{ usuario.getApellido() | upper }}</span><span> {{ usuario.getNombre() | capitalize }}</span>
+                                </td>
+                                <td class="texto-centrado">
+                                    <span class="texto-negrita">{{ usuario.getDocumento() | number_format(0,',','.') }}</span>
+                                </td>
+                                <td class="texto-centrado">
+                                    <span>{{ usuario.getUsuario() }}({{ usuario.getRol().getNombre() | upper }})</span>
+                                </td>
+                                <td class="texto-centrado">
+                                    <span>{{ usuario.getHabilitado()?'SI':'NO'}}</span>
+                                </td>
+                                <td class="texto-centrado accion">
+                                    {% if usuario.getBajaLogica() %}
+                                        <a class="btn btn-default btn-xs" title="Usuario Eliminado" href="{{ constant('ROOT_URL') }}usuario.php?action=ver&id={{ usuario.getId() }}">
+                                            <i class="fa fa-info-circle texto-rojo" aria-hidden="true"></i>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-success btn-xs" title="Editar usuario" href="{{ constant('ROOT_URL') }}usuario.php?action=ver&id={{ usuario.getId() }}">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-xs" title="Editar usuario" href="{{ constant('ROOT_URL') }}usuario.php?action=editar&id={{ usuario.getId() }}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-xs eliminar_usuario" title="Eliminar usuario" href="{{ constant('ROOT_URL') }}usuario.php?action=eliminar&id={{ usuario.getId() }}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif  %}
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                    {% else %}
+                        <tr class="tr-vacio">
+                            <td colspan="6"  class="text-center">(vac&iacute;o)</td>
+                        </tr>
+                    {% endif %}
+                </tbody>   
+            </table>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'usuario.php?action=listado'} %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}usuario.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $.Usuario.init();
+            });
+    </script>
+{% endblock %}

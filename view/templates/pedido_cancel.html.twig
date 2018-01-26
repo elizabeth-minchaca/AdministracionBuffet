@@ -1,0 +1,55 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}pedido.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Pedido Online - Cancelar (ID#{{pedido.getId()}})
+{% endblock %}
+
+{% block botonera %}
+    <li>
+        <a href="{{ constant('ROOT_URL') }}pedido.php?action=mis_pedidos"> Pedidos </a>
+    </li>
+    <li>
+        <a href="{{ constant('ROOT_URL') }}{{ 'pedido.php?action=ver&id='~pedido.getId()}}" > Pedido ID#{{pedido.getId()}}</a>
+    </li>
+    <li class="active">
+        Cancelar
+    </li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <form class="form-horizontal" method="POST" action="{{ constant('ROOT_URL') }}pedido.php?action=cancelar_accion&id={{pedido.getId()}}">
+            <fieldset>
+                <legend>
+                    <div class="col-md-6">Comentario (opcional)</div>
+                </legend>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea name="comentario" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6 text-left">
+                    <a class="btn btn-primary" href="{{ constant('ROOT_URL') }}{{ 'pedido.php?action=ver&id='~pedido.getId()}}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                    </a>
+                </div>
+                <div class="col-md-6  text-right">
+                    <input id="pedido_cancelar" class="btn btn-success" type="submit" value="Continuar">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}pedido.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.Pedido.init();
+        });
+    </script>
+{% endblock %}

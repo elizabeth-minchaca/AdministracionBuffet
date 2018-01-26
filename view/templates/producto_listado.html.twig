@@ -1,0 +1,81 @@
+{% extends "layout.html.twig" %}
+
+{% block otherstylesheet %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}producto.css">
+{% endblock %}
+
+{% block container_titulo %}
+    Productos - Listado de Productos
+{% endblock %}
+
+{% block botonera %}
+    <li class="active">Productos - Listado</li>
+{% endblock %}
+
+{% block container_html %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center col-md-1" id="posicion">#</th>
+                        <th class="text-center col-md-3" id="nombre">Nombre</th>
+                        <th class="text-center col-md-2" id="marca">Marca</th>
+                        <th class="text-center col-md-1" id="codigobarra">Codigo Barra</th>
+                        <th class="text-center col-md-1" id="stockactual">Stock actual</th>
+                        <th class="text-center col-md-2" id="categoria">Categor&iacute;a</th>
+                        <th class="text-center col-md-2" id="accion">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if productos | length > 0 %}
+                        {% for prod in productos %}
+                            <tr>
+                                <th class="texto-centrado" headers="posicion">{% include 'paginador_index.html.twig'  with  {'index': loop.index, 'pagina_actual': paginador.pagina_actual, 'tamanio_paginas': paginador.tamanio_paginas } %}</th>
+                                <td class="texto-centrado" headers="nombre">{{ prod.nombre }}</td>
+                                <td class="texto-centrado" headers="marca">{{ prod.marca }}</td>
+                                <td class="texto-centrado" headers="codigobarra">{{ prod.codigoBarra }}</td>
+                                <td class="texto-centrado" headers="stockactual">{{ prod.stock }}</td>
+                                <td class="texto-centrado" headers="categoria">{{ prod.categoria.nombre }}</td>
+                                <td class="texto-centrado" headers="accion">
+                                    <a class="btn btn-success btn-xs" title="Ver" href="{{ constant('ROOT_URL') }}{{ 'producto.php?action=ver_producto&id='~prod.id }}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+
+                                    <a class="btn btn-primary btn-xs" title="Editar" href="{{ constant('ROOT_URL') }}{{ 'producto.php?action=editar_producto&id='~prod.id }}">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+<!-- 
+                                        <a href="#" class="tip  btn btn-danger btn-xs" title="Eliminar" onclick=" $.Producto.eliminarProducto({{ prod.id }});">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+ -->
+            						<a
+            						href="{{ constant('ROOT_URL') }}{{ 'producto.php?action=eliminar_producto&id='~prod.id }}"
+            						class="btn btn-danger btn-xs" title="Eliminar"
+            						onclick="return confirm('¿ Est&aacute; seguro que desea eliminar este producto ?')">
+            							<i class="fa fa-trash" aria-hidden="true"></i>
+            						</a>
+                                        
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr class="tr-vacio">
+                            <td colspan="7"  class="text-center">(vac&iacute;o)</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            {% include 'paginador.html.twig' with  {'pagina_actual': paginador.pagina_actual, 'cant_paginas': paginador.cant_paginas, 'url': constant('ROOT_URL')~'producto.php?action=listado_productos'} %}
+        </div>
+    </div>
+{% endblock %}
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_JS') }}producto.js"></script>
+	<script type="text/javascript">
+           $(document).ready(function () {
+               $.Producto.init('{{ constant('ROOT_URL') }}');
+           });
+    </script>
+{% endblock %}
